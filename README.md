@@ -55,7 +55,7 @@ Solution Requirements:
 Should meet all requirements
 
 ## Outside Resources Used
-Inclass five was used for reference, as was this readme file
+Inclass five was used for reference, as was this readme file.  Link to inclass five below https://github.com/nsmith4848/cis237inclass5.git
 ## Known Problems, Issues, And/Or Errors in the Program
 No known problems
 
