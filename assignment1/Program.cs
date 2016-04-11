@@ -43,7 +43,7 @@ namespace assignment1
                         string outputString = "";
                         foreach(Beverage beverage in beverageNSmithEntities.Beverages)   //Gets the info of each beverage
                         {
-                            outputString += beverage.id + " " + beverage.name + " " + beverage.pack + " " + beverage.price.ToString() + Environment.NewLine;
+                            outputString += beverage.id + " " + beverage.name.Trim() +" " + beverage.pack.Trim() + " " + beverage.price.ToString() + Environment.NewLine;
                         }
                         userInterface.DisplayAllItems(outputString);
                         break;
