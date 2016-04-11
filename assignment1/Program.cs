@@ -20,22 +20,13 @@ namespace assignment1
     class Program
     {
         static void Main(string[] args)
-        {
-            //Set a constant for the size of the collection
-            const int wineItemCollectionSize = 4000;
-
-            //Set a constant for the path to the CSV File
-            const string pathToCSVFile = "../../../datafiles/winelist.csv";
+        {            
+            //Set up an instance of the beverages networkframe entity
+            BeverageNSmithEntities beverageNSmithEntities = new BeverageNSmithEntities();
 
             //Create an instance of the UserInterface class
-            UserInterface userInterface = new UserInterface();
-
-            //Create an instance of the WineItemCollection class
-            IWineCollection wineItemCollection = new WineItemCollection(wineItemCollectionSize);
-
-            //Create an instance of the CSVProcessor class
-            CSVProcessor csvProcessor = new CSVProcessor();
-
+            UserInterface userInterface = new UserInterface();            
+            
             //Display the Welcome Message to the user
             userInterface.DisplayWelcomeGreeting();
 
@@ -48,60 +39,61 @@ namespace assignment1
                 switch (choice)
                 {
                     case 1:
-                        //Load the CSV File
-                        bool success = csvProcessor.ImportCSV(wineItemCollection, pathToCSVFile);
-                        if (success)
+                        //Get a string for all items in database, then print with UI command
+                        string outputString = "";
+                        foreach(Beverage beverage in beverageNSmithEntities.Beverages)   //Gets the info of each beverage
                         {
-                            //Display Success Message
-                            userInterface.DisplayImportSuccess();
+                            outputString += beverage.id + " " + beverage.name + " " + beverage.pack + " " + beverage.price.ToString() + Environment.NewLine;
                         }
-                        else
-                        {
-                            //Display Fail Message
-                            userInterface.DisplayImportError();
-                        }
+                        userInterface.DisplayAllItems(outputString);
                         break;
 
                     case 2:
-                        //Print Entire List Of Items
-                        string[] allItems = wineItemCollection.GetPrintStringsForAllItems();
-                        if (allItems.Length > 0)
-                        {
-                            //Display all of the items
-                            userInterface.DisplayAllItems(allItems);
+                        //Adds a beverage to the database
+                        Beverage beverageToAdd = userInterface.GetAddedInput();   //Gets all of the info from the user
+                        try
+                        {                                                              //Validation for duplicate beverage id
+                            beverageNSmithEntities.Beverages.Add(beverageToAdd);
+                            beverageNSmithEntities.SaveChanges();
+                            userInterface.DisplayAddItemSuccess();
                         }
-                        else
+                        catch
                         {
-                            //Display error message for all items
-                            userInterface.DisplayAllItemsError();
+                            userInterface.DisplayItemAlreadyExistsError();
                         }
                         break;
 
                     case 3:
-                        //Search For An Item
-                        string searchQuery = userInterface.GetSearchQuery();
-                        string itemInformation = wineItemCollection.FindById(searchQuery);
-                        if (itemInformation != null)
-                        {
-                            userInterface.DisplayItemFound(itemInformation);
+                        //Updates the information in an existing beverage
+                        string updateIDString = userInterface.GetID();  //Gets ID of beverage from the user
+                        try
+                        {                           //Validation of whether or not ID is in the database
+                            Beverage beverageToUpdate = beverageNSmithEntities.Beverages.Find(updateIDString);
+                            Beverage updateBeverage = userInterface.GetUpdateInfo(updateIDString);
+                            beverageToUpdate.name = updateBeverage.name;
+                            beverageToUpdate.pack = updateBeverage.pack;
+                            beverageToUpdate.price = updateBeverage.price;
+                            beverageNSmithEntities.SaveChanges();
                         }
-                        else
+                        catch
                         {
                             userInterface.DisplayItemFoundError();
                         }
                         break;
 
                     case 4:
-                        //Add A New Item To The List
-                        string[] newItemInformation = userInterface.GetNewItemInformation();
-                        if (wineItemCollection.FindById(newItemInformation[0]) == null)
-                        {
-                            wineItemCollection.AddNewItem(newItemInformation[0], newItemInformation[1], newItemInformation[2]);
-                            userInterface.DisplayAddWineItemSuccess();
+                        //Delete an item
+                        string deleteIDString = userInterface.GetID();    //Gets ID of item to delete from the user
+                        try
+                        {                     //Validation for whether the item to delete exists
+                            Beverage beverageToDelete = beverageNSmithEntities.Beverages.Find(deleteIDString);                       
+                            beverageNSmithEntities.Beverages.Remove(beverageToDelete);
+                            beverageNSmithEntities.SaveChanges();
+                            userInterface.ItemDeleted();
                         }
-                        else
+                        catch
                         {
-                            userInterface.DisplayItemAlreadyExistsError();
+                            userInterface.DisplayItemFoundError();
                         }
                         break;
                 }

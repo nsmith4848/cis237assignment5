@@ -59,62 +59,12 @@ namespace assignment1
             Console.Write("> ");
             return Console.ReadLine();
         }
-
-        //Get New Item Information From The User.
-        public string[] GetNewItemInformation()
-        {
-            Console.WriteLine();
-            Console.WriteLine("What is the new items Id?");
-            Console.Write("> ");
-            string id = Console.ReadLine();
-            Console.WriteLine("What is the new items Description?");
-            Console.Write("> ");
-            string description = Console.ReadLine();
-            Console.WriteLine("What is the new items Pack?");
-            Console.Write("> ");
-            string pack = Console.ReadLine();
-
-            return new string[] { id, description, pack };
-        }
-
-        //Display Import Success
-        public void DisplayImportSuccess()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Wine List Has Been Imported Successfully");
-        }
-
-        //Display Import Error
-        public void DisplayImportError()
-        {
-            Console.WriteLine();
-            Console.WriteLine("There was an error importing the CSV");
-        }
-
+              
         //Display All Items
-        public void DisplayAllItems(string[] allItemsOutput)
+        public void DisplayAllItems(string allItemsOutput)
         {
-            Console.WriteLine();
-            foreach (string itemOutput in allItemsOutput)
-            {
-                Console.WriteLine(itemOutput);
-            }
-        }
-
-        //Display All Items Error
-        public void DisplayAllItemsError()
-        {
-            Console.WriteLine();
-            Console.WriteLine("There are no items in the list to print");
-        }
-
-        //Display Item Found Success
-        public void DisplayItemFound(string itemInformation)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Item Found!");
-            Console.WriteLine(itemInformation);
-        }
+            Console.WriteLine(allItemsOutput);
+        }       
 
         //Display Item Found Error
         public void DisplayItemFoundError()
@@ -124,7 +74,7 @@ namespace assignment1
         }
 
         //Display Add Wine Item Success
-        public void DisplayAddWineItemSuccess()
+        public void DisplayAddItemSuccess()
         {
             Console.WriteLine();
             Console.WriteLine("The Item was successfully added");
@@ -148,10 +98,10 @@ namespace assignment1
             Console.WriteLine();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine();
-            Console.WriteLine("1. Load Wine List From CSV");
-            Console.WriteLine("2. Print The Entire List Of Items");
-            Console.WriteLine("3. Search For An Item");
-            Console.WriteLine("4. Add New Item To The List");
+            Console.WriteLine("1. Print The Entire List Of Items");
+            Console.WriteLine("2. Add New Item");
+            Console.WriteLine("3. Update Existing Item");
+            Console.WriteLine("4. Delete Item");
             Console.WriteLine("5. Exit Program");
         }
 
@@ -202,6 +152,72 @@ namespace assignment1
 
             //Return the reutrnValue
             return returnValue;
+        }
+
+        public Beverage GetAddedInput()       //Gets the information for a new Beverage to be added to the database from the user
+        {
+            Beverage beverageToAdd = new Beverage();
+            Console.WriteLine("Please enter an ID for Your Beverage");
+            Console.WriteLine("");
+            beverageToAdd.id = Console.ReadLine();
+            Console.WriteLine("");
+            Console.WriteLine("Please enter a Name for Your Beverage");
+            Console.WriteLine("");
+            beverageToAdd.name = Console.ReadLine();
+            Console.WriteLine("");
+            Console.WriteLine("Please enter a package size for your beverage");
+            Console.WriteLine();
+            beverageToAdd.pack = Console.ReadLine();
+            Console.WriteLine();
+            beverageToAdd.price = this.GetPrice();                //Common method in add and update input to allow validation without
+            return beverageToAdd;                                 //Resetting the entire method
+
+        }
+        public string GetID()                                  //Gets the ID of item for update or deletion
+        {
+            Console.WriteLine();
+            Console.WriteLine("Please enter the ID of the item you would like to access");
+            Console.WriteLine();
+            string idString = Console.ReadLine();
+            return idString;
+        }
+
+        public Beverage GetUpdateInfo(string idString)                  //Gets the name, pack size, and price of item to be updated
+        {
+            Beverage templateBeverage = new Beverage();
+            templateBeverage.id = idString;
+            Console.WriteLine();
+            Console.WriteLine("What is the new name?");
+            Console.WriteLine();
+            templateBeverage.name = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine("What is the new package size?");
+            Console.WriteLine();
+            templateBeverage.pack = Console.ReadLine();
+            Console.WriteLine();
+            templateBeverage.price = this.GetPrice();
+            Console.WriteLine();
+            return templateBeverage;
+        }
+
+        private decimal GetPrice()                              //Recursive method to keep user from having to restart input due to 
+        {                                                       //Misunderstanding of data type to enter
+            Console.WriteLine("Please Enter the Price");
+            try
+            {
+                return Convert.ToDecimal(Console.ReadLine());            //Base Case
+            }
+            catch
+            {
+                return GetPrice();
+            }
+
+        }
+        public void ItemDeleted()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Item Deleted");
+            Console.WriteLine();
         }
     }
 }
