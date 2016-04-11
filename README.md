@@ -3,16 +3,10 @@
 ## Due 4-11-2016
 
 ## Author
-
+Nic Smith
 ## Description
 
-Either modify what I have in my Asignment1 key, which is included here, or bring in your files and use that to do the work.
-
-You are going to take the Assignment 1 we did with the Wine List .CSV and update it to work with a database in place of the CSV. In addition, the UI must be updated to accomodate some new fields for a Wine Item.
-
-The program should continually run until the user decides to exit (entering a certain character on the keyboard).
-
-The program should allow the following functionality:
+The program allows the following functionality:
 
 1. Loads the information about the Wines (Beverages) from the database. This is achived by making the connection to the database.
 2. Allow the user to print the entire list of items.
@@ -21,15 +15,15 @@ The program should allow the following functionality:
 5. Allow the user to update an existing wine item. (You should not allow the user to update the ID since that is the Primary Key of the database record)
 6. Allow the user to delete an existing wine item. It should show a nice error if the delete can not complete. (Deleting by ID is good enough. If you would like to offer other searches for deletion you can, but are not required to.)
 
-Replace the class called WineItem with an Entity Framework Model based on the data in the database. We will do an example of this in class.
+I have replaced the class called WineItem with an Entity Framework Model based on the data in the database.
 
-Replace the WineItemCollection class with an Entity Framework collection based on the data in the database. We will do an example of this in class.
+Replaced the WineItemCollection class with an Entity Framework collection based on the data in the database. We will do an example of this in class.
 
-Update the class called User Interface to include any new methods that are required to facilitate the above funcitonality.
+Updated the class called User Interface to include any new methods that are required to facilitate the above funcitonality.
 
-CSVProcessor can either be removed or left. It will not be used though.
+CSVProcessor was left. It will not be used though.
 
-The old WineItem and WineItemCollection can be removed if desired since the Entity Framework versions will be used instead. You may want to hang on to the WineItemCollection and repurpose it as a class to act as a layer between the UI, and the Entity Framework. Essentially, the WineItemCollection could contain methods that make the EF method calls.
+I did not do this.  The old WineItem and WineItemCollection can be removed if desired since the Entity Framework versions will be used instead. You may want to hang on to the WineItemCollection and repurpose it as a class to act as a layer between the UI, and the Entity Framework. Essentially, the WineItemCollection could contain methods that make the EF method calls.
 
 To connect to the database you will use the following information.
 
@@ -58,10 +52,11 @@ Solution Requirements:
 * UI Class to handle I/O
 
 ### Notes
-
+Should meet all requirements
 
 ## Outside Resources Used
-
+Inclass five was used for reference, as was this readme file
 ## Known Problems, Issues, And/Or Errors in the Program
+No known problems
 
 
